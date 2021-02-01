@@ -47,7 +47,7 @@ generara un zip guardar-analisis-gen-mutante.zip en la ruta del proyecto /dist/
 En la cuenta de Amazon AWS se debe adjuntar el zip generado en el paso anterior
 
 en la "Configuración del tiempo de ejecución" de la lambda en el controlador se debe editar y 
-colocar "detector.gen.mutante.aws.function.StartProcessRequestHandler" 
+colocar "src/index.handler" 
 
 
 **Ejemplo**
