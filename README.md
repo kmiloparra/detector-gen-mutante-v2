@@ -34,6 +34,10 @@ colocar "detector.gen.mutante.aws.function.StartProcessRequestHandler"
 
 # generacion de Zip Node
 
+El proyecto de node se en cuentra en: 
+
+* [guardar-analisis-gen-mutante] (https://github.com/kmiloparra/guardar-analisis-gen-mutante)
+
 Los comandos para obtener el zip son
 
  npm install
