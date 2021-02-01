@@ -36,7 +36,7 @@ colocar "detector.gen.mutante.aws.function.StartProcessRequestHandler"
 
 El proyecto de node se en cuentra en: 
 
-* [guardar-analisis-gen-mutante] (https://github.com/kmiloparra/guardar-analisis-gen-mutante)
+*  (https://github.com/kmiloparra/guardar-analisis-gen-mutante)
 
 Los comandos para obtener el zip son
 
