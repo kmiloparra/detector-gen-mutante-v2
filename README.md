@@ -63,6 +63,10 @@ colocar "src/index.handler"
 
 ```
 
-## Arquitectura
+## Arquitectura Esperada
 
 ![imagen perdida] (https://ibb.co/NKpL286)
+
+## Arquitectura Real
+
+![imagen perdida] (https://ibb.co/mqm0XHK)
