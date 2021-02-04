@@ -5,6 +5,9 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.GsonBuilder;
 
+import lombok.Data;
+
+@Data
 public class Request implements Serializable {
 
 	/**
@@ -17,22 +20,6 @@ public class Request implements Serializable {
 	
 	@JsonProperty("esMutante")
 	private String esMutante;
-
-	public String[] getDna() {
-		return dna;
-	}
-
-	public void setDna(String[] dna) {
-		this.dna = dna;
-	}
-	
-	public String getEsMutante() {
-		return esMutante;
-	}
-
-	public void setEsMutante(String esMutante) {
-		this.esMutante = esMutante;
-	}
 
 	@Override
 	public String toString() {

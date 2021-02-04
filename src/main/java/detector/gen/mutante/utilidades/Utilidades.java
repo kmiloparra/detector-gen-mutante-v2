@@ -130,14 +130,4 @@ public class Utilidades {
 		return diagonales.toArray(new String[diagonales.size()]);
 	}
 
-	public static void main(String[] args) {
-		String[] dna =  { "GCGGCGTA","GCAAGTAG","GGAGTAGT","GAGAGGTC","pppppppT","GAGTCGAT","AGAGTCGT","CGAGTTGT"};
-		String[] cadenas = Utilidades.obtenerDiagonales(dna);
-		System.out.println("cadenas.size "+cadenas.length);
-		for (int i = 0; i < cadenas.length; i++) {			
-			System.out.println(cadenas[i]);
-		}
-
-	}
-
 }

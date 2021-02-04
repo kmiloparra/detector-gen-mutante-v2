@@ -1,6 +1,5 @@
 package detector.gen.mutante.service;
 
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -8,7 +7,9 @@ import java.util.stream.Collectors;
 
 import detector.gen.mutante.constantes.Constantes;
 import detector.gen.mutante.utilidades.Utilidades;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class BuscadorGenomicoServiceImpl implements BuscadorGenomicoService{
 
 	private static final String[] SECUENCIAS_BUSCADAS = Constantes.SECUENCIAS_GEN_MUTANTE.split(",");
@@ -31,35 +32,31 @@ public class BuscadorGenomicoServiceImpl implements BuscadorGenomicoService{
 	public boolean isMutant(String[] dna) {
 		int contadorSecuenciasMutantes = 0;
 		if (Constantes.ALGORITMO_UTILIZADO.equals(Constantes.ALGORITMO_HASH)) {
-			System.out.println("Algoritmo HASH");
+			log.info("Algoritmo HASH");
 			contadorSecuenciasMutantes = contarSecuenciasGenomicasHorizontalesHash(dna);
-			System.out.println("contadorSecuenciasMutantes Horizontales: "+contadorSecuenciasMutantes);
 			if (contadorSecuenciasMutantes >= Constantes.CANTIDAD_SECUENCIA_MUTANTE) {
 				return Boolean.TRUE;
 			} else {
 				contadorSecuenciasMutantes += contarSecuenciasGenomicasVerticales2(dna);
-				System.out.println("contadorSecuenciasMutantes Horizontales+verticales: "+contadorSecuenciasMutantes);
 				if (contadorSecuenciasMutantes >= Constantes.CANTIDAD_SECUENCIA_MUTANTE)
 					return Boolean.TRUE;
 				else
 					contadorSecuenciasMutantes += contarSecuenciasGenomicasDiagonales2(dna);
 			}
 		} else {
-			System.out.println("Algoritmo INDEXOF");
+			log.info("Algoritmo INDEXOF");
+			System.out.println("INDEXOF");
 			contadorSecuenciasMutantes = contarSecuenciasGenomicasHorizontales(dna);
-			System.out.println("contadorSecuenciasMutantes Horizontales: "+contadorSecuenciasMutantes);
 			if (contadorSecuenciasMutantes >= Constantes.CANTIDAD_SECUENCIA_MUTANTE) {
 				return Boolean.TRUE;
 			} else {
 				contadorSecuenciasMutantes += contarSecuenciasGenomicasVerticales(dna);
-				System.out.println("contadorSecuenciasMutantes Horizontales+verticales: "+contadorSecuenciasMutantes);
 				if (contadorSecuenciasMutantes >= Constantes.CANTIDAD_SECUENCIA_MUTANTE)
 					return Boolean.TRUE;
 				else
 					contadorSecuenciasMutantes += contarSecuenciasGenomicasDiagonales(dna);
 			}
 		}
-		System.out.println("contadorSecuenciasMutantes Horizontales+verticales+oblicuos: "+contadorSecuenciasMutantes);
 		return contadorSecuenciasMutantes >= Constantes.CANTIDAD_SECUENCIA_MUTANTE;
 	};
 
@@ -188,27 +185,9 @@ public class BuscadorGenomicoServiceImpl implements BuscadorGenomicoService{
 	 */
 	private void ejecutarBusquedaGenomicaCadenasHash(String[] dna, AtomicInteger contadorGenMutante) {
 		Arrays.asList(dna).stream()
-				.takeWhile(cadena -> contadorGenMutante.get() < Constantes.CANTIDAD_SECUENCIA_MUTANTE)
+		.takeWhile(cadena -> contadorGenMutante.get() < Constantes.CANTIDAD_SECUENCIA_MUTANTE)
 				.forEach(cadena -> contadorGenMutante.getAndAdd(
 						Utilidades.encontrarIncidenciasHash(SECUENCIAS_VALIDAS, SECUENCIAS_INVALIDAS, cadena)));
-	}
-	
-
-	public static void main(String[] args) {
-		String[] dnaMutante = { "GTCpAGTA", "TCGAGTAG", "CGAGTAGT", "GAAAGGTC", "pppppppp", "GAGTCGAT", "AGAGTCGT","CGAGTAGT" }; // no mutante
-		String[] dnaHumano =  { "GTCGAGTA", "TCGAGTAG", "CGAGTAGT", "GAGAGGTC", "pppppppp", "GAGTCGAT", "AGAGTCGT","CGAGTAGT" }; //mutante
-		String[] mutanteHorizontales =  { "GGGGCGTA","TCAAGTAG","CGAGTAGT","GAGAGGTC","pppppppp","GAGTCGAT","AGAGTCGT","CGAGTTTT"}; 
-
-		int inicio = ZonedDateTime.now().getNano();
-
-		//System.out.println("dnamutante:"+ new BuscadorGenomicoServiceImpl().isMutant(dnaMutante));
-		//System.out.println("dnahumano:"+ new BuscadorGenomicoServiceImpl().isMutant(dnaHumano));
-		
-		System.out.println("mutanteHorizontales:"+ new BuscadorGenomicoServiceImpl().contarSecuenciasGenomicasHorizontalesHash(mutanteHorizontales));
-
-		int tfinal = ZonedDateTime.now().getNano();
-
-		System.out.println("tiempo gastado en microsegundos:" + (tfinal - inicio) / 1000);
 	}
 
 }

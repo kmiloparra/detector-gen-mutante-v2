@@ -22,9 +22,11 @@ buildscript {
 }
 plugins {
     id 'java-library'
+    id 'jacoco'
 }
 
 apply plugin: "org.sonarqube"
+apply plugin: "jacoco"
 
 repositories {
     jcenter()
@@ -40,6 +42,8 @@ dependencies {
     compile 'org.slf4j:slf4j-log4j12:1.7.5'
     compile 'com.amazonaws:aws-lambda-java-events:2.2.5'
     compile 'com.amazonaws:aws-lambda-java-core:1.2.0'
+    compile 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
     
     implementation 'com.amazonaws:aws-java-sdk-sqs:1.11.835'
 	
@@ -47,6 +51,7 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.21.0]}'
     testCompile 'org.powermock:powermock-api-mockito2:2.0.0'
     testCompile 'org.powermock:powermock-module-junit4:2.0.0'
+    testCompile 'org.springframework:spring-test:2.5'
 }
 
 sonarqube {
@@ -60,6 +65,32 @@ sonarqube {
    }
 }
 
+jacoco {
+    toolVersion = "0.8.6"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled true
+        html.enabled true
+       html.destination file("${buildDir}/jacocoHtml")
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            excludes = [
+                    '*/model/*'
+            ]
+            limit {
+                minimum = 0.80
+            }
+        }
+    }
+}
+
 task buildZip(type: Zip) {
     from compileJava
     from processResources
@@ -67,5 +98,8 @@ task buildZip(type: Zip) {
         from configurations.runtimeClasspath
     }
 }
+
+jacocoTestCoverageVerification.dependsOn jacocoTestReport
+check.dependsOn jacocoTestCoverageVerification
 
 build.dependsOn buildZip

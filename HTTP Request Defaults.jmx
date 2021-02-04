@@ -18,7 +18,7 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="ThreadGroup.num_threads">10000</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
@@ -32,7 +32,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value"> {&quot;dna&quot;:[&quot;GTCpAGTA&quot;,&quot;TCGAGTAG&quot;,&quot;CGAGTAGT&quot;,&quot;GAAAGGTC&quot;,&quot;pppppppp&quot;,&quot;GAGTCGAT&quot;]}</stringProp>
+                <stringProp name="Argument.value"> {&quot;dna&quot;:[&quot;GTCTAG&quot;,&quot;TCGAGT&quot;,&quot;CGAGTA&quot;,&quot;GAAAGG&quot;,&quot;GAAAGG&quot;,&quot;GAGTCG&quot;]}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -41,7 +41,7 @@
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">https://3m5n4mon0m.execute-api.us-east-2.amazonaws.com/v1/mutant</stringProp>
+          <stringProp name="HTTPSampler.path">https://wjc0jjkz7e.execute-api.us-east-2.amazonaws.com/default/mutant</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>

@@ -44,11 +44,26 @@ public class BuscadorGenomicoServiceImplTest {
 	}
 	
 	@Test
-	public void esMutantePorVerticalesTest() throws NoSuchFieldException, SecurityException, Exception {
+	public void noEsMutantePorHorizontalesTest() throws NoSuchFieldException, SecurityException, Exception {
 		
 		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_UTILIZADO"), "HASH");
 		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_HASH"), "HASH");
 		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_INDEXOF"), "HASH");
+		setFinalStatic(Constantes.class.getDeclaredField("TAMANIO_MAXIMO_DIMENSION"), "8");
+		
+		BuscadorGenomicoServiceImpl buscadorGenomico = spy(BuscadorGenomicoServiceImpl.class);
+		
+		String[] mutanteHorizontales =  { "GEGGCGTA","TCAAGTAG","CGAGTAGT","pppppppp","GAGAGGTC","GAGTCGAT","AGAGTCGT","CGAGTTTT"}; 
+
+		assertEquals(Boolean.FALSE, buscadorGenomico.isMutant(mutanteHorizontales));
+	}
+	
+	@Test
+	public void esMutantePorVerticalesTest() throws NoSuchFieldException, SecurityException, Exception {
+		
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_UTILIZADO"), "HASH");
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_HASH"), "HASH");
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_INDEXOF"), "INDEXOF");
 		setFinalStatic(Constantes.class.getDeclaredField("TAMANIO_MAXIMO_DIMENSION"), "8");
 		
 		BuscadorGenomicoServiceImpl buscadorGenomico = spy(BuscadorGenomicoServiceImpl.class);
@@ -56,10 +71,90 @@ public class BuscadorGenomicoServiceImplTest {
 		String[] mutanteVerticales =  { "GCGGCGTA","GCAAGTAG","GGAGTAGT","GAGAGGTC","pppppppT","GAGTCGAT","AGAGTCGT","CGAGTTGT"}; 
 
 		assertEquals(Boolean.TRUE, buscadorGenomico.isMutant(mutanteVerticales));
+		
+	}
+	
+	@Test
+	public void esMutantePorVerticalesindexTest() throws NoSuchFieldException, SecurityException, Exception {
+		
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_UTILIZADO"), "INDEXOF");
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_HASH"), "HASH");
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_INDEXOF"), "INDEXOF");
+		setFinalStatic(Constantes.class.getDeclaredField("TAMANIO_MAXIMO_DIMENSION"), "8");
+		
+		BuscadorGenomicoServiceImpl buscadorGenomico = spy(BuscadorGenomicoServiceImpl.class);
+		
+		String[] mutanteVerticales =  { "GCGGCGTA","GCAAGTAG","GGAGTAGT","GAGAGGTC","pppppppT","GAGTCGAT","AGAGTCGT","CGAGTTGT"}; 
+
+		assertEquals(Boolean.TRUE, buscadorGenomico.isMutant(mutanteVerticales));
+		
+	}
+	
+	
+	
+	@Test
+	public void noEsMutantePorVerticalesTest() throws NoSuchFieldException, SecurityException, Exception {
+		
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_UTILIZADO"), "HASH");
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_HASH"), "HASH");
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_INDEXOF"), "INDEXOF");
+		setFinalStatic(Constantes.class.getDeclaredField("TAMANIO_MAXIMO_DIMENSION"), "8");
+		
+		BuscadorGenomicoServiceImpl buscadorGenomico = spy(BuscadorGenomicoServiceImpl.class);
+		
+		String[] mutanteVerticales =  { "GCGGCGTA","GCAAGTAG","pppppppT","GAGAGGTC","pppppppT","GAGTCGAE","AGAGTCGT","CGAGTTGT"}; 
+
+		assertEquals(Boolean.FALSE, buscadorGenomico.isMutant(mutanteVerticales));
+	}
+	
+	@Test
+	public void noEsMutantePorVerticalesIndexTest() throws NoSuchFieldException, SecurityException, Exception {
+		
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_UTILIZADO"), "INDEXOF");
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_HASH"), "HASH");
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_INDEXOF"), "INDEXOF");
+		setFinalStatic(Constantes.class.getDeclaredField("TAMANIO_MAXIMO_DIMENSION"), "8");
+		
+		
+		BuscadorGenomicoServiceImpl buscadorGenomico = spy(BuscadorGenomicoServiceImpl.class);
+		
+		String[] mutanteVerticales =  { "GCGGCGTA","GCAAGTAG","pppppppT","GAGAGGTC","pppppppT","GAGTCGAE","AGAGTCGT","CGAGTTGT"}; 
+
+		assertEquals(Boolean.FALSE, buscadorGenomico.isMutant(mutanteVerticales));
 	}
 	
 	@Test
 	public void esMutantePorDiagonalesTest() throws NoSuchFieldException, SecurityException, Exception {
+		
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_UTILIZADO"), "HASH");
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_HASH"), "HASH");
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_INDEXOF"), "INDEXOF");
+		setFinalStatic(Constantes.class.getDeclaredField("TAMANIO_MAXIMO_DIMENSION"), "8");
+		
+		BuscadorGenomicoServiceImpl buscadorGenomico = spy(BuscadorGenomicoServiceImpl.class);
+		
+		String[] mutanteDiagonales =  { "GTCGAGTA", "TCGAGTAG", "CGAGTAGT", "GAGAGGTC", "pppppppp", "GAGTCGAT", "AGAGTCGT","CGAGTAGT" }; 
+
+		assertEquals(Boolean.TRUE, buscadorGenomico.isMutant(mutanteDiagonales));
+	}
+	
+	@Test
+	public void esMutantePorDiagonalesIndexTest() throws NoSuchFieldException, SecurityException, Exception {
+		
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_UTILIZADO"), "INDEXOF");
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_HASH"), "HASH");
+		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_INDEXOF"), "INDEXOF");
+		setFinalStatic(Constantes.class.getDeclaredField("TAMANIO_MAXIMO_DIMENSION"), "8");
+		
+		BuscadorGenomicoServiceImpl buscadorGenomico = spy(BuscadorGenomicoServiceImpl.class);
+		
+		String[] mutanteDiagonales =  { "GTCGAGTA", "TCGAGTAG", "CGAGTAGT", "GAGAGGTC", "pppppppp", "GAGTCGAT", "AGAGTCGT","CGAGTAGT" }; 
+
+		assertEquals(Boolean.TRUE, buscadorGenomico.isMutant(mutanteDiagonales));
+	}
+	
+	@Test
+	public void noEsMutantePorDiagonalesTest() throws NoSuchFieldException, SecurityException, Exception {
 		
 		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_UTILIZADO"), "HASH");
 		setFinalStatic(Constantes.class.getDeclaredField("ALGORITMO_HASH"), "HASH");
@@ -68,9 +163,9 @@ public class BuscadorGenomicoServiceImplTest {
 		
 		BuscadorGenomicoServiceImpl buscadorGenomico = spy(BuscadorGenomicoServiceImpl.class);
 		
-		String[] mutanteDiagonales =  { "GTCGAGTA", "TCGAGTAG", "CGAGTAGT", "GAGAGGTC", "pppppppp", "GAGTCGAT", "AGAGTCGT","CGAGTAGT" }; 
+		String[] mutanteDiagonales =  { "GTCGAGTA", "pppppppp", "CGAGTAGT", "GAGAGGTC", "pppppppp", "GAGTCGAT", "AGAGTCGT","CGAGTAGT" }; 
 
-		assertEquals(Boolean.TRUE, buscadorGenomico.isMutant(mutanteDiagonales));
+		assertEquals(Boolean.FALSE, buscadorGenomico.isMutant(mutanteDiagonales));
 	}
 	
 	public static void setFinalStatic(Field field, Object newValue) throws Exception {

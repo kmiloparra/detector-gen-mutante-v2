@@ -1,6 +1,7 @@
-package detector.gen.mutante.aws.function;
+	package detector.gen.mutante.aws.function;
 
 import java.io.IOException;
+import java.util.concurrent.Future;
 import java.util.function.Function;
 
 import org.springframework.boot.SpringBootConfiguration;
@@ -13,9 +14,8 @@ import org.springframework.http.HttpStatus;
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
-import com.amazonaws.services.sqs.AmazonSQS;
-import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
-import com.amazonaws.services.sqs.model.SendMessageRequest;
+import com.amazonaws.services.sqs.AmazonSQSAsync;
+import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
 import com.amazonaws.services.sqs.model.SendMessageResult;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,7 +26,9 @@ import detector.gen.mutante.model.Request;
 import detector.gen.mutante.service.BuscadorGenomicoService;
 import detector.gen.mutante.service.BuscadorGenomicoServiceImpl;
 import detector.gen.mutante.validacion.Validacion;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @SpringBootConfiguration
 public class SpringCloudFunctionAwsApplication implements ApplicationContextInitializer<GenericApplicationContext> {
 
@@ -35,7 +37,14 @@ public class SpringCloudFunctionAwsApplication implements ApplicationContextInit
 	 * Atributo que maneja el contexto de Spring de lambda
 	 * 
 	 */
-	private GenericApplicationContext genericApplicationContext;
+	public GenericApplicationContext genericApplicationContext;
+	
+	/**
+	 * 
+	 * Formato log
+	 * 
+	 */
+	private static final String FORMATO_LOG = "%s %s %s";
 
 	/**
 	 * 
@@ -45,13 +54,13 @@ public class SpringCloudFunctionAwsApplication implements ApplicationContextInit
 	 */
 	public Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> startProcess() {
 		return input -> {
-
+			
 			APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
 			Request request = null;
 			try {
-				System.out.println(input);
+				log.info("Request input" +input.toString());
 				System.out.println(input.getBody());
-				request = getRequest(input, request);
+				request = getRequest(input);
 				boolean esValido = validarRequest(request);
 				if (!esValido) {
 					response.setStatusCode(HttpStatus.BAD_REQUEST.value());
@@ -71,7 +80,13 @@ public class SpringCloudFunctionAwsApplication implements ApplicationContextInit
 					request.setEsMutante(Boolean.FALSE.toString());
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				log.error(
+				          String.format(
+				                  FORMATO_LOG,
+				                  "Error in startProcess ",
+				                  e.getMessage(),
+				                  e.getCause()));
+				
 				response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
 				response.setBody(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
 			}
@@ -107,15 +122,13 @@ public class SpringCloudFunctionAwsApplication implements ApplicationContextInit
 	 * @return
 	 * @throws IOException
 	 */
-	private Request getRequest(APIGatewayProxyRequestEvent input, Request request) throws IOException {
+	public Request getRequest(APIGatewayProxyRequestEvent input) throws IOException {
+		Request request = null;
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			request = objectMapper.readValue(input.getBody(), Request.class);
-			request.setEsMutante(Boolean.TRUE.toString());
-			System.out.println(objectMapper.writeValueAsString(request));
 
 		} catch (JsonParseException e) {
-			e.printStackTrace();
 			throw e;
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
@@ -151,11 +164,9 @@ public class SpringCloudFunctionAwsApplication implements ApplicationContextInit
 	 * @param queueName
 	 * @return
 	 */
-	public SendMessageResult sendToSQS(String body, String queueName) {
-		AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
-		SendMessageRequest sendMessageRequest = new SendMessageRequest()
-				.withQueueUrl(sqs.getQueueUrl(queueName).getQueueUrl()).withMessageBody(body);
-		return sqs.sendMessage(sendMessageRequest);
+	public Future<SendMessageResult> sendToSQS(String body, String queueName) {
+		AmazonSQSAsync sqs = AmazonSQSAsyncClientBuilder.defaultClient();
+		return sqs.sendMessageAsync(sqs.getQueueUrl(queueName).getQueueUrl(),body);
 	}
 
 }
