@@ -30,7 +30,6 @@ public class Utilidades {
 				i = ++indiceInicial;
 			}
 		}
-		System.out.println("encontarIncidenciasIndexOf: "+numeroIncidencias+" secuencia: "+secuencia+" cadena: "+cadena);
 		return numeroIncidencias;
 	}
 
@@ -58,18 +57,17 @@ public class Utilidades {
 					return Constantes.CANTIDAD_SECUENCIA_MUTANTE;
 				i += Constantes.TAMANIO_SECUENCIA_MUTANTE;
 			} else {
-				resultado = secuenciasinvalidas.get(subCadena);
+				resultado = secuenciasinvalidas.get(subCadena.substring(2));
 				if (resultado != null)
 					i += Constantes.CANTIDAD_SECUENCIA_MUTANTE;
 			}
 		}
-		System.out.println("encontarIncidenciasHash: "+numeroIncidencias+" cadena: "+cadena);
 		return numeroIncidencias;
 	}
 
 	/**
 	 * 
-	 * Metodo para pivotear matriz y obtener la transpuesta
+	 * Metodo para pivotear matriz y obtener la matriz pivote
 	 * 
 	 * @param dna
 	 * @return

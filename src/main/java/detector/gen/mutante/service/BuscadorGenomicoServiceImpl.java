@@ -24,7 +24,7 @@ public class BuscadorGenomicoServiceImpl implements BuscadorGenomicoService{
 	
 	/**
 	 * 
-	 * Metodo que define si es mutante 
+	 * Metodo que define si es mutante o no
 	 * 
 	 * @param dna
 	 * @return
@@ -45,7 +45,6 @@ public class BuscadorGenomicoServiceImpl implements BuscadorGenomicoService{
 			}
 		} else {
 			log.info("Algoritmo INDEXOF");
-			System.out.println("INDEXOF");
 			contadorSecuenciasMutantes = contarSecuenciasGenomicasHorizontales(dna);
 			if (contadorSecuenciasMutantes >= Constantes.CANTIDAD_SECUENCIA_MUTANTE) {
 				return Boolean.TRUE;
@@ -110,7 +109,7 @@ public class BuscadorGenomicoServiceImpl implements BuscadorGenomicoService{
 
 	/**
 	 * 
-	 * Ejecuta la busqueda de secuecias genomicas mutantes en las cadenas pasadas
+	 * Ejecuta la busqueda de secuencias genomicas mutantes en las cadenas pasadas
 	 * como parametro
 	 * 
 	 * @param cadenas
@@ -189,5 +188,5 @@ public class BuscadorGenomicoServiceImpl implements BuscadorGenomicoService{
 				.forEach(cadena -> contadorGenMutante.getAndAdd(
 						Utilidades.encontrarIncidenciasHash(SECUENCIAS_VALIDAS, SECUENCIAS_INVALIDAS, cadena)));
 	}
-
+	
 }
