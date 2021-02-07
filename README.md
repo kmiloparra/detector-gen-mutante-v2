@@ -34,27 +34,34 @@ colocar "detector.gen.mutante.aws.function.StartProcessRequestHandler"
 
 # generacion de Zip Node
 
-El proyecto de node se en cuentra en: 
+Los proyectos de node se en cuentra en: 
 
 *  (https://github.com/kmiloparra/guardar-analisis-gen-mutante)
 
-Los comandos para obtener el zip son
+*  (https://github.com/kmiloparra/estadisticas-gen-mutante)
+
+Los comandos para obtener ambos zip son
 
  npm install
 
  npm run build
 
-generara un zip guardar-analisis-gen-mutante.zip en la ruta del proyecto /dist/
+Se generara un zip en la ruta de los proyectos en /dist/
 
-# despliegue Lambda node
+con los zip llamados:
 
-En la cuenta de Amazon AWS se debe adjuntar el zip generado en el paso anterior
+-guardar-analisis-gen-mutante.zip
+-estadisticas-gen-mutante.zip
 
-en la "Configuración del tiempo de ejecución" de la lambda en el controlador se debe editar y 
+# despliegue Lambdas node
+
+En la cuenta de Amazon AWS se debe adjuntar los zip generados en el paso anterior
+
+en la "Configuración del tiempo de ejecución" de las lambdas en el controlador se debe editar y 
 colocar "src/index.handler" 
 
 
-**Ejemplo**
+**Ejemplo Detector Mutante**
 
 * [endpoint definido en el apigateway]/mutant 
 * POST
@@ -67,10 +74,13 @@ colocar "src/index.handler"
 
 ```
 
-## Arquitectura Esperada
+**Ejemplo Estadisticas Mutante**
 
-![imagen perdida] (https://ibb.co/NKpL286)
+* [endpoint definido en el apigateway]/stats 
+* GET
 
-## Arquitectura Real
+No Body
 
-![imagen perdida] (https://ibb.co/mqm0XHK)
+## Arquitectura De la aplicacion
+
+![imagen perdida] (https://ibb.co/HrCKzsS)
