@@ -8,7 +8,7 @@ version 2 de detector gen mutante
 * se debe tener instalado [Node](https://nodejs.org) y [NPM](hhttps://www.npmjs.com/)
 * Se debe tener instalado gradle
 * Tener Cuenta en Amazon AWS con los siguientes servicios
-    1. Lambda function creada(se ddeben tener 2 creadas una Java y la otra en node JS)
+    1. Lambda function creada(se deben tener 3 creadas una Java y las otras en node JS)
     2. API gateway creado con los recursos necesarios para llamar a la lambda
     3. DynamoDB tabla creada llamada "registro-gen" con: 
         -La clave de partición principal "dna"
