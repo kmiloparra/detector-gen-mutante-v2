@@ -82,6 +82,7 @@ public class SpringCloudFunctionAwsApplication implements ApplicationContextInit
 
 				response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
 				response.setBody(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
+				return response;
 			}
 			enviarMensajeSQS(request.toString(), Constantes.NOMBRE_COLA);
 			return response;

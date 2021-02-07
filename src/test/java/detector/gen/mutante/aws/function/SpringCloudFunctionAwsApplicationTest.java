@@ -286,6 +286,15 @@ public class SpringCloudFunctionAwsApplicationTest {
 
 		assertEquals(false, new SpringCloudFunctionAwsApplication().validarRequest(req));
 		
+		Mockito.when(Validacion.validacionTamanioDimension(dna)).thenReturn(true);
+		Mockito.when(Validacion.validacionFilaVacia(dna)).thenReturn(false);
+		Mockito.when(Validacion.validacionNxN(dna)).thenReturn(false);
+		Mockito.when(Validacion.validacionDominio(dna)).thenReturn(true);
+
+		assertEquals(false, new SpringCloudFunctionAwsApplication().validarRequest(req));
+		
+		
+		
 	}
 	
 	@Test
@@ -337,6 +346,7 @@ public class SpringCloudFunctionAwsApplicationTest {
 		new SpringCloudFunctionAwsApplication().initialize(genericApplicationContext);
 		PowerMockito.mockStatic(AmazonSQSAsyncClientBuilder.class);
 		AmazonSQSAsync sqs = mock(AmazonSQSAsync.class);
+		new Constantes();
 		GetQueueUrlResult queueName = mock(GetQueueUrlResult.class);
 		when(sqs.getQueueUrl(Mockito.anyString())).thenReturn(queueName);
 		when(sqs.sendMessageAsync(Mockito.anyString(),Mockito.anyString())).thenReturn(null);
